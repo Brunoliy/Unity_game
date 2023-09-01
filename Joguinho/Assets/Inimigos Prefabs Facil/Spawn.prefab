@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1564403088879909297
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4455484224515886804}
+  - component: {fileID: 3782895290054799906}
+  m_Layer: 0
+  m_Name: Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4455484224515886804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564403088879909297}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.6547089, y: -1.336155, z: -37.690765}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3782895290054799906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564403088879909297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 330aeff5556fb0b4abd594b72df8e278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lixoPretoPrefab: {fileID: 8400309485761840667, guid: d0e5b0c68bfbd744ab76eb757cf8a9d9,
+    type: 3}
+  lixoVerdePrefab: {fileID: 3060926727160486362, guid: ab6d783fe2f3cbf408b6776775d6cab7,
+    type: 3}
+  bolaPapelPrefab: {fileID: 5023481304198250082, guid: c9c3a1bedfe3d4441865a92f08402cb5,
+    type: 3}
+  garrafaPlasticoPrefab: {fileID: 5613377314922829083, guid: 01c3e197f6efdcd4797fd23504752336,
+    type: 3}
+  intervaloLixoPreto: 5
+  intervaloLixoVerde: 5
+  intervaloBolaPapel: 7
+  intervaloGarrafaPlastico: 10
