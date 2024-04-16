@@ -6,20 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Menu.unity
-    guid: 86f65a59afb5800499fccf9d62eca746
+    path: Assets/Scenes/Menu.unity
+    guid: c03f415b7d7e35d4a97369ed529a8851
   - enabled: 1
-    path: Assets/Gameplay.unity
-    guid: 0bbf07f488e7fcf498ad84d6cb30a94b
+    path: Assets/Scenes/Lobby.unity
+    guid: d092996825b928942ac64b2112d527fe
   - enabled: 1
-    path: Assets/GameplayNormal.unity
-    guid: 7563bf20c2ebc444d8b943a0124c8061
+    path: Assets/Scenes/Gameplay.unity
+    guid: cce26576a737f9f42a9a8767a9e77175
   - enabled: 1
-    path: Assets/GameplayDificil.unity
-    guid: c93c9b1144d887d449576f747048be2b
+    path: Assets/Scenes/GameplayNormal.unity
+    guid: acabedf0d2868724d864c6f3ef5da78f
   - enabled: 1
-    path: Assets/GameplayExpert.unity
-    guid: 43b3826956691f54482d0ff5cfe95f89
+    path: Assets/Scenes/GameplayDificil.unity
+    guid: 45e1d598c493daa47be18c51e5378312
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 68b02f06a77406e4c899fad60baef244,
       type: 2}

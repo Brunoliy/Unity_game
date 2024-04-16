@@ -1,19 +1,23 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 public class menuPrincipalManager : MonoBehaviour
 {
     [SerializeField] private string nomeDoLevelDeJogo;
     [SerializeField] private GameObject painelMenuInicial;
     [SerializeField] private GameObject painelJogar;
+    [SerializeField] private GameObject painelMultiplayer;
     [SerializeField] private GameObject painelOpcoes;
     [SerializeField] private GameObject painelCreditos;
     [SerializeField] private Button BotaoFacil;
     [SerializeField] private Button BotaoNormal;
     [SerializeField] private Button BotaoDificil;
+   
 
     public void AbrirJogar()
     {
@@ -24,8 +28,12 @@ public class menuPrincipalManager : MonoBehaviour
 
     public void JogarFacil()
     {
-            SceneManager.LoadScene("Gameplay");
-            Time.timeScale = 0;
+        SceneManager.LoadScene("Gameplay");
+        Time.timeScale = 0;
+    }public void AbrirMultiplayer()
+    {
+        painelMenuInicial.SetActive(false);
+        painelMultiplayer.SetActive(true);
     }
     public void JogarNormal()
     {
@@ -35,11 +43,6 @@ public class menuPrincipalManager : MonoBehaviour
     public void JogarDificil()
     {
         SceneManager.LoadScene("GameplayDificil");
-        Time.timeScale = 0;
-    }
-    public void JogarExpert()
-    {
-        SceneManager.LoadScene("GameplayExpert");
         Time.timeScale = 0;
     }
 
@@ -85,3 +88,5 @@ public class menuPrincipalManager : MonoBehaviour
 
     }
 }
+
+
