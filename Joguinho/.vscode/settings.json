@@ -58,5 +58,6 @@
         "ProjectSettings/": true,
         "temp/": true,
         "Temp/": true
-    }
+    },
+    "dotnet.defaultSolution": "Joguinho.sln"
 }

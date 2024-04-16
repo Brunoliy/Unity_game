@@ -7,19 +7,14 @@ public class Jogador : MonoBehaviour
     public FixedJoystick joystick;
     private float keyboardHorizontal;
     private float keyboardVertical;
-    
-    [SerializeField] private Rigidbody2D _rigidbody;
-
-    [SerializeField] private float velocidadeMovimento;
-
     public DirecaoMovimento direcaoMovimento;
+    public TextMesh textoNome;
 
+    [SerializeField] private Rigidbody2D _rigidbody;
+    [SerializeField] private float velocidadeMovimento;
     [SerializeField] private AtaqueJogador ataqueJogador;
-
     [SerializeField] AnimacaoJogador animacaoJogador;
-
     [SerializeField] GameManagement gameManagement;
-
     [SerializeField] public int vidas;
 
     
@@ -36,6 +31,7 @@ public class Jogador : MonoBehaviour
     private void Update()
     {
         this.vidas = this.gameManagement.vidas;
+ 
     }
 
     // Update is called once per frame
@@ -98,4 +94,5 @@ public class Jogador : MonoBehaviour
             return (this.vidas <= 0);
         }
     }
+    
 }
