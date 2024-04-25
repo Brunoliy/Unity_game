@@ -141,9 +141,10 @@ PlayerSettings:
   tvOSBundleVersion: 1.0
   bundleVersion: 1
   preloadedAssets:
-  - {fileID: 7709261762334566131, guid: 68b02f06a77406e4c899fad60baef244, type: 2}
   - {fileID: 11400000, guid: 2a83021b7fb792d44a6084487fb7f820, type: 2}
+  - {fileID: 7709261762334566131, guid: 68b02f06a77406e4c899fad60baef244, type: 2}
   - {fileID: 11400000, guid: ec13fbed9a512054e85a1af5a8e53342, type: 2}
+  - {fileID: 11400000, guid: 2812adb035b48724eaec96c2cb0a5195, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -761,8 +762,8 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: Template_2D
-  metroPackageVersion: 
+  metroPackageName: Template2D
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -770,7 +771,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: Template_2D
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: Eco Mission
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0
@@ -783,6 +784,7 @@ PlayerSettings:
   metroSplashScreenBackgroundColor: {r: 0.12941177, g: 0.17254902, b: 0.21568628,
     a: 1}
   metroSplashScreenUseBackgroundColor: 0
+  syncCapabilities: 0
   platformCapabilities: {}
   metroTargetDeviceFamilies: {}
   metroFTAName: 
@@ -836,7 +838,7 @@ PlayerSettings:
   hmiLogStartupTiming: 0
   hmiCpuConfiguration: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 2
+  activeInputHandler: 1
   windowsGamepadBackendHint: 0
   cloudProjectId: 93998d8c-2a71-43d5-b942-99fa40005da9
   framebufferDepthMemorylessMode: 0
