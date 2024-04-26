@@ -8,7 +8,7 @@ public class GameManagement : MonoBehaviour
 	public static GameManagement Instance { get; private set; }
 	[SerializeField] private GameObject painelDerrota;
 	[SerializeField] private GameObject painelHUD;
-	public Jogador jogador;
+	public MultiJogador jogador;
 	public HUD hud;
 
 	public int vidas = 6;
@@ -26,15 +26,16 @@ public class GameManagement : MonoBehaviour
 		}
 	}
 	private void Update()
-    {
-		
-    }
-    public void PerderVida()
 	{
-		vidas -=1;
-		
+
+	}
+	public void PerderVida()
+	{
+		vidas -= 1;
+
 		if (vidas == 0)
-		{	Time.timeScale = 0;
+		{
+			Time.timeScale = 0;
 			painelHUD.SetActive(false);
 			painelDerrota.SetActive(true);
 			Debug.Log("Morreu");

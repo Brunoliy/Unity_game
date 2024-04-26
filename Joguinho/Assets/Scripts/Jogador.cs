@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Realtime;
 
 public class Jogador : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class Jogador : MonoBehaviour
     [SerializeField] GameManagement gameManagement;
     [SerializeField] public int vidas;
 
-    
+
 
 
     // Start is called before the first frame update
@@ -25,13 +26,13 @@ public class Jogador : MonoBehaviour
     {
         this.direcaoMovimento = DirecaoMovimento.Direita;
         _rigidbody = GetComponent<Rigidbody2D>();
-        
+
     }
 
     private void Update()
     {
         this.vidas = this.gameManagement.vidas;
- 
+
     }
 
     // Update is called once per frame
@@ -39,18 +40,18 @@ public class Jogador : MonoBehaviour
     {
         if (Derrotado)
         {
-            
+
             return;
-            
+
         }
         if (this.ataqueJogador.Atacando)
         {
-             //Parar a movimentação
-             this._rigidbody.velocity = Vector2.zero;
+            //Parar a movimentaï¿½ï¿½o
+            this._rigidbody.velocity = Vector2.zero;
             Debug.Log("Velocidade zerada");
         }
         else
-        { 
+        {
             float horizontal = this.joystick.Horizontal;
             float vertical = this.joystick.Vertical;
             keyboardHorizontal = Input.GetAxis("KeyboardHorizontal");
@@ -77,7 +78,7 @@ public class Jogador : MonoBehaviour
     {
         this.vidas--;
         this.gameManagement.PerderVida();
-        if(this.vidas < 0)
+        if (this.vidas < 0)
         {
             this.vidas = 0;
         }
@@ -85,7 +86,7 @@ public class Jogador : MonoBehaviour
         {
             this.animacaoJogador.ReceberDano(Derrotado);
         }
-           
+
     }
     public bool Derrotado
     {
@@ -94,5 +95,5 @@ public class Jogador : MonoBehaviour
             return (this.vidas <= 0);
         }
     }
-    
+
 }

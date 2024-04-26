@@ -1,4 +1,4 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -13,11 +13,20 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public Text roomName;
 
     public RoomItem roomItemPrefab;
+    public GameObject roomItemObj;
+    public Text roomItemT;
     List<RoomItem> roomItemsList = new List<RoomItem>();
     public Transform contentObject;
 
     public float timeBetweenUpdates = 1.5f;
     float nextUpdateTime;
+
+    public List<PlayerItem> playerItemsList = new List<PlayerItem>();
+    public PlayerItem playerItemPrefab;
+    public Transform playerItemParent;
+
+    public GameObject playButton;
+
     public void Start()
     {
         PhotonNetwork.JoinLobby();
@@ -28,7 +37,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //Cria a sala
         if (roomInputField.text.Length >= 1 && PhotonNetwork.IsConnectedAndReady)
         {
-            PhotonNetwork.CreateRoom(roomInputField.text, new RoomOptions() { MaxPlayers = 3 });
+            PhotonNetwork.CreateRoom(roomInputField.text, new RoomOptions() { MaxPlayers = 3, BroadcastPropsChangeToAll = true });
+            roomItemObj.SetActive(true);
+            roomItemT.text = roomInputField.text;
+
+
         }
         else
         {
@@ -41,9 +54,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         lobbyPanel.SetActive(false);
         roomPanel.SetActive(true);
         roomName.text = "Nome da sala: " + PhotonNetwork.CurrentRoom.Name;
+        UpdatePlayerList();
     }
 
-    
+
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         if (Time.time >= nextUpdateTime)
@@ -52,7 +66,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             UpdateRoomList(roomList);
             nextUpdateTime = Time.time + timeBetweenUpdates;
         }
-        
+
     }
     void UpdateRoomList(List<RoomInfo> list)
     {
@@ -76,7 +90,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.JoinRoom(roomName);
     }
-    
+
     public void OnclickLeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
@@ -84,11 +98,76 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         roomPanel.SetActive(false);
-        lobbyPanel.SetActive(true );
+        lobbyPanel.SetActive(true);
+    }
+
+    public void OnclickLeaveLobby()
+    {
+        PhotonNetwork.LeaveLobby();
+    }
+    public override void OnLeftLobby()
+    {
+        PhotonNetwork.LoadLevel("Menu");
     }
 
     public override void OnConnectedToMaster()
     {
+
         PhotonNetwork.JoinLobby();
+    }
+
+    void UpdatePlayerList()
+    {
+        foreach (PlayerItem item in playerItemsList)
+        {
+            Destroy(item.gameObject);
+        }
+
+        playerItemsList.Clear();
+
+        if (PhotonNetwork.CurrentRoom == null)
+        {
+            return;
+        }
+
+        foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
+        {
+            PlayerItem newPlayerItem = Instantiate(playerItemPrefab, playerItemParent);
+            newPlayerItem.SetPlayerInfo(player.Value);
+
+            if (player.Value == PhotonNetwork.LocalPlayer)
+            {
+                newPlayerItem.ApplyLocalChanges();
+            }
+
+            playerItemsList.Add(newPlayerItem);
+        }
+    }
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        UpdatePlayerList();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        UpdatePlayerList();
+    }
+
+    private void Update()
+    {
+        if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount >= 1)
+        {
+            playButton.SetActive(true);
+        }
+        else
+        {
+            playButton.SetActive(false);
+        }
+    }
+
+    public void OnClickPlayButton()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.LoadLevel("GameplayMultiplayer");
     }
 }

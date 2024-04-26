@@ -15,20 +15,22 @@ public class InimigoMovimentacao : MonoBehaviour
 
 
     [SerializeField] private int velocidade;
-    [SerializeField] private new Rigidbody2D rigidbody;
+    [SerializeField] private Rigidbody2D rigidbody;
 
     [SerializeField] private float distanciaMinima;
 
     [SerializeField] private SpriteRenderer spriteRenderer;
 
-    public void MexeBoneco() {
+    public void MexeBoneco()
+    {
 
         Vector2 posicaoAlvo = this.player.position;
         Vector2 posicaoAtual = this.transform.position;
 
         float distancia = Vector2.Distance(posicaoAtual, posicaoAlvo);
 
-        if (distancia >= distanciaMinima) {
+        if (distancia >= distanciaMinima)
+        {
             Vector2 direcao = posicaoAlvo - posicaoAtual;
             direcao = direcao.normalized;
 
@@ -44,28 +46,36 @@ public class InimigoMovimentacao : MonoBehaviour
             {
                 this.spriteRenderer.flipX = true;
             }
-        }else {
+        }
+        else
+        {
             PararBoneco();
         }
 
 
     }
 
-    public void PararBoneco() {
+    public void PararBoneco()
+    {
 
         rigidbody.velocity = Vector2.zero;
     }
 
-    private void OnDrawGizmos() {
+    private void OnDrawGizmos()
+    {
         Gizmos.DrawWireSphere(this.transform.position, this.raioVisao);
     }
 
-    public void ProcuraJogador() {
+    public void ProcuraJogador()
+    {
         Collider2D colisor = Physics2D.OverlapCircle(this.transform.position, this.raioVisao, this.layerAreaVisao);
-        if (colisor != null) {
+        if (colisor != null)
+        {
             this.player = colisor.transform;
             //colisor = 100;
-        } else {
+        }
+        else
+        {
             this.player = null;
         }
     }
@@ -74,9 +84,12 @@ public class InimigoMovimentacao : MonoBehaviour
     {
         ProcuraJogador();
 
-        if (this.player != null) {
+        if (this.player != null)
+        {
             MexeBoneco();
-        } else {
+        }
+        else
+        {
             PararBoneco();
         }
 
