@@ -101,6 +101,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         lobbyPanel.SetActive(true);
     }
 
+    public void OnclickLeaveLobby()
+    {
+        PhotonNetwork.LeaveLobby();
+    }
+    public override void OnLeftLobby()
+    {
+        PhotonNetwork.LoadLevel("Menu");
+    }
+
     public override void OnConnectedToMaster()
     {
 
@@ -158,6 +167,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void OnClickPlayButton()
     {
+        PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.LoadLevel("GameplayMultiplayer");
     }
 }

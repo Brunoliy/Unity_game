@@ -109,5 +109,15 @@ public class PlayerItem : MonoBehaviourPunCallbacks
             playerProperties["playerAvatar"] = 0;
         }
     }
-
+    public override void OnJoinedRoom()
+    {
+        // Verificar se o jogador local é o master client
+        if (PhotonNetwork.IsMasterClient && PhotonNetwork.LocalPlayer != null)
+        {
+            // Definir a propriedade "playerAvatar" para o jogador local
+            int initialAvatarIndex = Random.Range(0, avatars.Length); // Índice do avatar inicial
+            playerProperties["playerAvatar"] = initialAvatarIndex;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperties);
+        }
+    }
 }
