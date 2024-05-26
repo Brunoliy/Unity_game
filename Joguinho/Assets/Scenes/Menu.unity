@@ -1374,7 +1374,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 112}
+  m_AnchoredPosition: {x: 6, y: 112}
   m_SizeDelta: {x: 746.422, y: 192.78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &468194308
@@ -1397,7 +1397,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Jogo criado...
+  m_text: "Jogo criado com fins educativos por: \nBruno de Oliveira\nD\xE9bora Alves\nFernando
+    Alcantara\nGabriel Sampaio\nMatheus Micalloni\nNicolas Nery"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2575,14 +2576,14 @@ RectTransform:
   m_GameObject: {fileID: 793659184}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.125, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 839071943}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 114}
+  m_AnchoredPosition: {x: 0, y: 108}
   m_SizeDelta: {x: 746.42, y: 192.78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &793659186
@@ -2968,7 +2969,7 @@ RectTransform:
   m_GameObject: {fileID: 930566978}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2122, y: 1.2122, z: 1.2122}
+  m_LocalScale: {x: 1.6021279, y: 1.4953195, z: 1.4241138}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1744721387}
@@ -2998,7 +2999,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8676177a1e5627f4b881036f14cb9bff, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a3f62c7cd4f5f594db1dc421a06c57b8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3789,7 +3790,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -108.28989}
+  m_AnchoredPosition: {x: 0, y: -116}
   m_SizeDelta: {x: 746.422, y: 192.78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1109207779
@@ -3958,10 +3959,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fundoMusical: {fileID: 514135732}
-  somLigadoSprite: {fileID: -7262319030141262456, guid: 236587ec711348a4792e0060efb1bf73,
-    type: 3}
-  somDesligadoSprite: {fileID: 7204127102869416671, guid: 236587ec711348a4792e0060efb1bf73,
-    type: 3}
+  somLigadoSprite: {fileID: 21300000, guid: 1bc15f748c433904681da6a826c2f947, type: 3}
+  somDesligadoSprite: {fileID: 21300000, guid: c3ffbd6273a66f74e9e7fb28a04ec1d0, type: 3}
   muteImage: {fileID: 1219893778}
 --- !u!114 &1131679477
 MonoBehaviour:
@@ -4909,7 +4908,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -435, y: -405}
+  m_AnchoredPosition: {x: -435, y: -360}
   m_SizeDelta: {x: 250, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1624461810
@@ -4958,7 +4957,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1131679474}
         m_TargetAssemblyTypeName: menuPrincipalManager, Assembly-CSharp
-        m_MethodName: FecharJogar
+        m_MethodName: FecharMultiplayer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5322,7 +5321,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.3188407, y: 2.3188407, z: 2.3188407}
+  m_LocalScale: {x: 1.0088, y: 0.9583802, z: 1.0088}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 929064050}
@@ -5368,7 +5367,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 61.717678
+  field of view: 56.54511
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -5461,7 +5460,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -100.00003}
+  m_AnchoredPosition: {x: 0, y: -149}
   m_SizeDelta: {x: 700, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755106818

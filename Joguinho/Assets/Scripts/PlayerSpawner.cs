@@ -2,20 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Cinemachine;
 
 public class PlayerSpawner : MonoBehaviour
 {
     public GameObject[] playerPrefabs;
     public Transform[] spawnPoints;
+    public CinemachineTargetGroup targetGroup; // Referência ao Cinemachine Target Group
 
 
     private void Start()
     {
         int randomNumber = Random.Range(0, spawnPoints.Length);
         Transform spawnPoint = spawnPoints[randomNumber];
+
         if (PhotonNetwork.LocalPlayer == null)
         {
-            Debug.LogError("PhotonNetwork.LocalPlayer é nulo. Certifique-se de estar conectado a uma sala Photon.");
+            Debug.LogError("Não conectado à rede Photon.");
             return;
         }
 
@@ -38,6 +41,9 @@ public class PlayerSpawner : MonoBehaviour
         }
 
         GameObject playerToSpawn = playerPrefabs[(int)PhotonNetwork.LocalPlayer.CustomProperties["playerAvatar"]];
-        PhotonNetwork.Instantiate(playerToSpawn.name, spawnPoint.position, Quaternion.identity);
+        GameObject playerInstance = PhotonNetwork.Instantiate(playerToSpawn.name, spawnPoint.position, Quaternion.identity);
+
+        // Adicione o transformador do jogador instanciado ao Cinemachine Target Group
+        targetGroup.AddMember(playerInstance.transform, 1f, 1f);
     }
 }

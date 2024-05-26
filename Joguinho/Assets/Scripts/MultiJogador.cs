@@ -15,25 +15,29 @@ public class MultiJogador : MonoBehaviour
     [SerializeField] private float velocidadeMovimento;
     [SerializeField] private MultAtaqueJogador MultAtaqueJogador;
     [SerializeField] AnimacaoJogador animacaoJogador;
-    private GameManagement gameManagement;
+    private MGameManagement gameManagement;
     [SerializeField] public int vidas;
-
-
-
-
-
 
     // Start is called before the first frame update
     private void Start()
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+
         this.direcaoMovimento = DirecaoMovimento.Direita;
         _rigidbody = GetComponent<Rigidbody2D>();
 
         // Encontre o GameManager na cena
-        gameManagement = FindObjectOfType<GameManagement>();
+        gameManagement = FindObjectOfType<MGameManagement>();
         if (gameManagement == null)
         {
             Debug.LogWarning("GameManager não encontrado na cena!");
+        }
+        else
+        {
+            gameManagement.AdicionarJogador(this);
         }
 
         // Encontre o joystick na cena
@@ -46,23 +50,26 @@ public class MultiJogador : MonoBehaviour
 
     private void Update()
     {
-        this.vidas = this.gameManagement.vidas;
+        if (!photonView.IsMine)
+        {
+            return;
+        }
 
+        // Atualizar logicamente as vidas se necessário
+        //this.vidas = this.vidas;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
-        if (Derrotado)
+        if (!photonView.IsMine || Derrotado)
         {
-
             return;
-
         }
+
         if (this.MultAtaqueJogador.Atacando)
         {
-            //Parar a movimenta��o
+            // Parar a movimentação
             this._rigidbody.velocity = Vector2.zero;
             Debug.Log("Velocidade zerada");
         }
@@ -76,7 +83,7 @@ public class MultiJogador : MonoBehaviour
 
             Vector2 direcao = new(horizontal + keyboardHorizontal, vertical + keyboardVertical);
             direcao = direcao.normalized;
-            Debug.Log(direcao + "=>" + direcao.magnitude);
+            Debug.Log(direcao + " => " + direcao.magnitude);
 
             if (direcao.x > 0)
             {
@@ -89,12 +96,17 @@ public class MultiJogador : MonoBehaviour
 
             this._rigidbody.velocity = direcao * this.velocidadeMovimento;
         }
-
     }
+
     public void ReceberDano()
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+
         this.vidas--;
-        this.gameManagement.PerderVida();
+        this.gameManagement.PerderVida(this);
         if (this.vidas < 0)
         {
             this.vidas = 0;
@@ -103,8 +115,8 @@ public class MultiJogador : MonoBehaviour
         {
             this.animacaoJogador.ReceberDano(Derrotado);
         }
-
     }
+
     public bool Derrotado
     {
         get
@@ -112,5 +124,4 @@ public class MultiJogador : MonoBehaviour
             return (this.vidas <= 0);
         }
     }
-
 }

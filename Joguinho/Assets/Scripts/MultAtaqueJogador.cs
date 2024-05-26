@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 
 public class MultAtaqueJogador : MonoBehaviour
@@ -15,17 +16,12 @@ public class MultAtaqueJogador : MonoBehaviour
     [SerializeField] private AnimacaoJogador animacaoJogador;
 
     private bool atacando;
-
     private Button botaoAtaque;
+    public PhotonView photonView;
 
     void Start()
     {
         this.atacando = false;
-        //botaoAtaque.onClick.AddListener(VerificarAtaque);
-        // Encontre o botão de ataque na cena
-
-
-        // Encontre o objeto "UI" na cena
         // Encontre o objeto "UI" na cena
         GameObject uiObject = GameObject.Find("UI");
         if (uiObject != null)
@@ -39,7 +35,7 @@ public class MultAtaqueJogador : MonoBehaviour
                 if (attackButtonTransform != null)
                 {
                     // Obtenha o componente Button do botão de ataque
-                    Button botaoAtaque = attackButtonTransform.GetComponent<Button>();
+                    botaoAtaque = attackButtonTransform.GetComponent<Button>();
                     if (botaoAtaque != null)
                     {
                         // Adicione um listener para o botão de ataque
@@ -64,11 +60,8 @@ public class MultAtaqueJogador : MonoBehaviour
         {
             Debug.LogWarning("Objeto UI não encontrado na cena!");
         }
-
     }
 
-
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) && this.atacando == false)
@@ -88,7 +81,7 @@ public class MultAtaqueJogador : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
-        //Cria uma esfera para definir a area do ataque
+        // Cria uma esfera para definir a área do ataque
         if (this.pontoAtaqueDireita != null)
         {
             Gizmos.DrawWireSphere(this.pontoAtaqueDireita.position, this.raioAtaque);
@@ -121,10 +114,31 @@ public class MultAtaqueJogador : MonoBehaviour
 
     public void Atacar()
     {
+        // Verificar se este jogador é controlado pelo jogador local
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+        // Chamar o RPC para todos os jogadores
+        photonView.RPC("ExecutarAtaqueRPC", RpcTarget.All);
+    }
+
+    [PunRPC]
+    private void ExecutarAtaqueRPC()
+    {
         this.atacando = true;
-        //Executar anima��o de ataque
-        this.animacaoJogador.Atacar();
-        //Aplica dano nos inimigos
+
+        // Executar animação de ataque
+        if (this.animacaoJogador != null)
+        {
+            this.animacaoJogador.Atacar();
+        }
+        else
+        {
+            Debug.LogError("animacaoJogador não está atribuído em MultAtaqueJogador.");
+        }
+
+        // Aplica dano nos inimigos
         Transform pontoAtaque;
         if (this.Jogador.direcaoMovimento == DirecaoMovimento.Direita)
         {
@@ -142,22 +156,26 @@ public class MultAtaqueJogador : MonoBehaviour
             foreach (Collider2D colliderInimigo in collidersInimigos)
             {
                 Debug.Log("Atacando objeto" + colliderInimigo.name);
-                //Causar dano no inimigo
+                // Causar dano no inimigo
                 Inimigo inimigo = colliderInimigo.GetComponent<Inimigo>();
-
                 if (inimigo != null)
                 {
                     inimigo.ReceberDano();
                 }
             }
         }
+
     }
+
+
     public void ComecarAtaque()
     {
         this.atacando = true;
     }
     public void EncerrarAtaque()
     {
+
         this.atacando = false;
     }
+
 }
