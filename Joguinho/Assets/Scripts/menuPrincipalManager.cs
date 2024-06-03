@@ -17,7 +17,7 @@ public class menuPrincipalManager : MonoBehaviour
     [SerializeField] private Button BotaoFacil;
     [SerializeField] private Button BotaoNormal;
     [SerializeField] private Button BotaoDificil;
-   
+
 
     public void AbrirJogar()
     {
@@ -30,7 +30,8 @@ public class menuPrincipalManager : MonoBehaviour
     {
         SceneManager.LoadScene("Gameplay");
         Time.timeScale = 0;
-    }public void AbrirMultiplayer()
+    }
+    public void AbrirMultiplayer()
     {
         painelMenuInicial.SetActive(false);
         painelMultiplayer.SetActive(true);
@@ -51,6 +52,12 @@ public class menuPrincipalManager : MonoBehaviour
         painelJogar.SetActive(false);
         painelMenuInicial.SetActive(true);
 
+    }
+
+    public void FecharMultiplayer()
+    {
+        painelMultiplayer.SetActive(false);
+        painelMenuInicial.SetActive(true);
     }
 
     public void AbrirOpcoes()
@@ -88,5 +95,3 @@ public class menuPrincipalManager : MonoBehaviour
 
     }
 }
-
-

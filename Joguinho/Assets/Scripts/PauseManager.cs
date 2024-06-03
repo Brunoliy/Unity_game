@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public class PauseManager : MonoBehaviour
 {
@@ -49,18 +48,39 @@ public class PauseManager : MonoBehaviour
             SceneManager.LoadScene("GameplayExpert");
             Time.timeScale = 0;
         }
-
-
+        else if (nomeDoLevelDeJogo == "GameplayMultiplayer")
+        {
+            painelDerrota.SetActive(false);
+            PhotonNetwork.AutomaticallySyncScene = true;
+            PhotonNetwork.LoadLevel("GameplayMultiplayer");
+            Time.timeScale = 1;
         }
+
+
+    }
     public void PauseGame()
     {
-        Time.timeScale = 0;
-        painelPauseMenu.SetActive(true);
+        if (nomeDoLevelDeJogo == "GameplayMultiplayer")
+        {
+            painelPauseMenu.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 0;
+            painelPauseMenu.SetActive(true);
+        }
     }
     public void Resume()
     {
-        Time.timeScale = 1;
-        painelPauseMenu.SetActive(false);
+        if (nomeDoLevelDeJogo == "GameplayMultiplayer")
+        {
+            painelPauseMenu.SetActive(false);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            painelPauseMenu.SetActive(false);
+        }
     }
     public void Opcoes()
     {
@@ -86,6 +106,11 @@ public class PauseManager : MonoBehaviour
     }
     public void MenuInicial()
     {
+        if (nomeDoLevelDeJogo == "GameplayMultiplayer")
+        {
+            Photon.Pun.PhotonNetwork.LeaveRoom();
+            Photon.Pun.PhotonNetwork.Disconnect();
+        }
         SceneManager.LoadScene("Menu");
     }
 

@@ -8,13 +8,13 @@ public class SpawnerInimigo : MonoBehaviour // Script que faz os objetos spawnar
     [SerializeField] GameObject lixoVerdePrefab;
     [SerializeField] GameObject bolaPapelPrefab;
     [SerializeField] GameObject garrafaPlasticoPrefab;
-    
+
 
     [SerializeField] private float intervaloLixoPreto = 3.5f;
     [SerializeField] private float intervaloLixoVerde = 3.5f;
     [SerializeField] private float intervaloBolaPapel = 5f;
     [SerializeField] private float intervaloGarrafaPlastico = 10f;
-    
+
     private void Start()
     {
         StartCoroutine(spawnEnemy(intervaloLixoPreto, lixoPretoPrefab));
@@ -27,7 +27,7 @@ public class SpawnerInimigo : MonoBehaviour // Script que faz os objetos spawnar
     {
         Debug.Log("Respawnando inimigos");
         yield return new WaitForSeconds(interval);
-        GameObject newEnemy = Instantiate(enemy, new Vector3(Random.Range(-5f, 5), Random.Range(-6f, 6), 0), Quaternion.identity);
+        GameObject newEnemy = Instantiate(enemy, new Vector3(Random.Range(124, 138), Random.Range(-35f, -45f), 0), Quaternion.identity);
 
         if (gameObject.activeSelf)
         {
@@ -35,6 +35,5 @@ public class SpawnerInimigo : MonoBehaviour // Script que faz os objetos spawnar
             StartCoroutine(spawnEnemy(interval, enemy));
         }
     }
-   
+
 }
-   

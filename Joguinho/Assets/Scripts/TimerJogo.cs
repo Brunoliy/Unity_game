@@ -15,7 +15,7 @@ public class TimerJogo : MonoBehaviour
 
     private int contadorBossLixeira = 1;  // Quantidade de vezes que o boss Lixeira pode ser spawnado
     private int contadorBossBateria = 1;  // Quantidade de vezes que o boss Bateria pode ser spawnado
-    private int contadorBossToxico = 1;   // Quantidade de vezes que o boss Tóxico pode ser spawnado
+    private int contadorBossToxico = 1;   // Quantidade de vezes que o boss Tï¿½xico pode ser spawnado
 
     [SerializeField] GameObject painelVitoria;
     [SerializeField] GameObject painelHUD;
@@ -32,9 +32,9 @@ public class TimerJogo : MonoBehaviour
     public bool bossSpawned;
     public void Start()
     {
-        spawnPositionLixeira = new Vector3(5, 9, 0);
-        spawnPositionBateria = new Vector3(-9.5f, 8, 0);
-        spawnPositionToxico = new Vector3(0, 0, 0);
+        spawnPositionLixeira = new Vector3(125, -59f, 0);
+        spawnPositionBateria = new Vector3(131, -40f, 0);
+        spawnPositionToxico = new Vector3(136, 4.7f, 0);
         bossSpawned = false;
     }
     public void Update()
@@ -84,8 +84,8 @@ public class TimerJogo : MonoBehaviour
                 Instantiate(bossLixeiraPrefab, spawnPositionLixeira, Quaternion.identity);
                 contadorBossLixeira--;
                 bossSpawned = true;
-                
-                if(bossSpawned == true)
+
+                if (bossSpawned == true)
                 {
                     bossSpawned = false;
                 }
@@ -101,11 +101,11 @@ public class TimerJogo : MonoBehaviour
                     bossSpawned = false;
                 }
             }
-            if (minutos >= 1 && segundos>= 20)
+            if (minutos >= 1 && segundos >= 20)
             {
                 Spawn.SetActive(false);
 
-                if (minutos >= 1 && segundos >= 30  && contadorBossToxico > 0)
+                if (minutos >= 1 && segundos >= 30 && contadorBossToxico > 0)
                 {
                     bossToxicoInstance = Instantiate(bossToxicoPrefab, spawnPositionToxico, Quaternion.identity);
                     contadorBossToxico--;
@@ -116,16 +116,16 @@ public class TimerJogo : MonoBehaviour
 
         }
     }
-    
+
     public float PegarVidaBossToxico()
     {
-        if(bossToxicoPrefab == null) 
+        if (bossToxicoPrefab == null)
         {
             Inimigo bossToxicoScript = bossToxicoInstance.GetComponent<Inimigo>();
 
             if (bossToxicoScript != null)
             {
-                if(bossToxicoScript.vidas <= 0)
+                if (bossToxicoScript.vidas <= 0)
                 {
                     Vitoria();
                 }
