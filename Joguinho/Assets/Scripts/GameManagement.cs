@@ -8,7 +8,7 @@ public class GameManagement : MonoBehaviour
 	public static GameManagement Instance { get; private set; }
 	[SerializeField] private GameObject painelDerrota;
 	[SerializeField] private GameObject painelHUD;
-	public MultiJogador jogador;
+	public Jogador jogador;
 	public HUD hud;
 
 	public int vidas = 6;

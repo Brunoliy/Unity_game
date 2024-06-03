@@ -100,35 +100,47 @@ public class Inimigo : MonoBehaviour
     public void AplicarDano()
     {
         string sceneName = SceneManager.GetActiveScene().name;
-        object jogador = null;
-
-        if (sceneName == "GameplayMultiplayer")
+        /*if (sceneName == "GameplayMultiplayer")
         {
-            jogador = alvo.GetComponent<MultiJogador>();
-            if (jogador == null)
+            MultiJogador jogador = alvo.GetComponent<MultiJogador>();
+            if (jogador != null)
             {
-                Debug.LogError("Componente MultiJogador não encontrado no alvo.");
+                jogador.ReceberDano();
                 return;
             }
         }
         else if (sceneName == "Gameplay" || sceneName == "GameplayNormal" || sceneName == "GameplayDificil")
         {
-            jogador = alvo.GetComponent<Jogador>();
-            if (jogador == null)
+            Jogador jogador = alvo.GetComponent<Jogador>();
+            if (jogador != null)
             {
-                Debug.LogError("Componente Jogador não encontrado no alvo.");
+                jogador.ReceberDano();
                 return;
             }
+        }*/
+
+        //Obtém o componente de jogador associado ao alvo
+        Jogador jogador = alvo.GetComponent<Jogador>();
+
+        // Se o componente de jogador for encontrado, aplica dano ao jogador
+        if (jogador != null)
+        {
+            jogador.ReceberDano();
+            return;
         }
 
-        if (jogador is MultiJogador multiJogador)
+        // Obtém o componente de jogador multiplayer associado ao alvo
+        MultiJogador jogadorMulti = alvo.GetComponent<MultiJogador>();
+
+        // Se o componente de jogador multiplayer for encontrado, aplica dano ao jogador multiplayer
+        if (jogadorMulti != null)
         {
-            multiJogador.ReceberDano();
+            jogadorMulti.ReceberDano();
+            return;
         }
-        else if (jogador is Jogador singleJogador)
-        {
-            singleJogador.ReceberDano();
-        }
+
+        // Se nenhum dos componentes for encontrado, mostra um erro
+        Debug.LogError("Componente de jogador não encontrado no alvo.");
     }
 
     private void OnDrawGizmos()

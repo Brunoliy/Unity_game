@@ -13,7 +13,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public Text roomName;
 
     public RoomItem roomItemPrefab;
-    public GameObject roomItemObj;
     public Text roomItemT;
     List<RoomItem> roomItemsList = new List<RoomItem>();
     public Transform contentObject;
@@ -32,13 +31,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinLobby();
     }
 
-    public void OnClickCreate()
+    /*public void OnClickCreate()
     {
         //Cria a sala
         if (roomInputField.text.Length >= 1 && PhotonNetwork.IsConnectedAndReady)
         {
             PhotonNetwork.CreateRoom(roomInputField.text, new RoomOptions() { MaxPlayers = 3, BroadcastPropsChangeToAll = true });
-            roomItemObj.SetActive(true);
+            //roomItemObj.SetActive(true);
             roomItemT.text = roomInputField.text;
 
 
@@ -48,15 +47,54 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             Debug.LogError("Unable to create room: Photon is not connected and ready.");
         }
     }
+    */
+    public void OnClickCreate()
+    {
+        if (roomInputField.text.Length >= 1 && PhotonNetwork.IsConnectedAndReady)
+        {
+            RoomOptions roomOptions = new RoomOptions();
+            roomOptions.MaxPlayers = 3;
+            roomOptions.BroadcastPropsChangeToAll = true;
+
+            // Adicionar o nome da sala às propriedades customizadas
+            ExitGames.Client.Photon.Hashtable roomProperties = new ExitGames.Client.Photon.Hashtable();
+            roomProperties.Add("roomName", roomInputField.text);
+            roomOptions.CustomRoomProperties = roomProperties;
+            roomOptions.CustomRoomPropertiesForLobby = new string[] { "roomName" };
+
+            PhotonNetwork.CreateRoom(roomInputField.text, roomOptions);
+        }
+        else
+        {
+            Debug.LogError("Unable to create room: Photon is not connected and ready.");
+        }
+    }
     public override void OnJoinedRoom()
     {
-        //Entra na sala e troca seu nome
+        // Atualizar o nome da sala usando propriedades customizadas
+        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("roomName"))
+        {
+            roomName.text = "Nome da sala: " + PhotonNetwork.CurrentRoom.CustomProperties["roomName"].ToString();
+        }
+        else
+        {
+            roomName.text = "Nome da sala: " + PhotonNetwork.CurrentRoom.Name;
+        }
+
         lobbyPanel.SetActive(false);
         roomPanel.SetActive(true);
-        roomName.text = "Nome da sala: " + PhotonNetwork.CurrentRoom.Name;
         UpdatePlayerList();
     }
-
+    /*
+        public override void OnJoinedRoom()
+        {
+            //Entra na sala e troca seu nome
+            lobbyPanel.SetActive(false);
+            roomPanel.SetActive(true);
+            roomName.text = "Nome da sala: " + PhotonNetwork.CurrentRoom.Name;
+            UpdatePlayerList();
+        }
+    */
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
@@ -68,6 +106,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
 
     }
+    /*
     void UpdateRoomList(List<RoomInfo> list)
     {
         //Funcao para atualizar, fica checando se a sala ainda existe, caso
@@ -82,6 +121,29 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             RoomItem newRoom = Instantiate(roomItemPrefab, contentObject);
             newRoom.SetRoomName(room.Name);
+            roomItemsList.Add(newRoom);
+        }
+    }
+*/
+    void UpdateRoomList(List<RoomInfo> list)
+    {
+        foreach (RoomItem item in roomItemsList)
+        {
+            Destroy(item.gameObject);
+        }
+        roomItemsList.Clear();
+
+        foreach (RoomInfo room in list)
+        {
+            RoomItem newRoom = Instantiate(roomItemPrefab, contentObject);
+
+            string roomName = room.Name;
+            if (room.CustomProperties.ContainsKey("roomName"))
+            {
+                roomName = room.CustomProperties["roomName"].ToString();
+            }
+
+            newRoom.SetRoomName(roomName);
             roomItemsList.Add(newRoom);
         }
     }

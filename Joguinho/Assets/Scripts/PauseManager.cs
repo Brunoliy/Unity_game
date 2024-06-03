@@ -12,8 +12,20 @@ public class PauseManager : MonoBehaviour
     [SerializeField] private GameObject painelHUD;
     [SerializeField] private GameObject painelDerrota;
     [SerializeField] private GameObject GameManager;
+    [SerializeField] private GameObject botaoRecomecarJogo;
 
-
+    private void Start()
+    {
+        // Mostrar/Recolher o botão de recomeçar jogo com base na condição de Master Client
+        if (PhotonNetwork.IsMasterClient)
+        {
+            botaoRecomecarJogo.SetActive(true);
+        }
+        else
+        {
+            botaoRecomecarJogo.SetActive(false);
+        }
+    }
 
     public void ComecarJogo()
     {
@@ -24,62 +36,38 @@ public class PauseManager : MonoBehaviour
     }
     public void RecomecarJogo()
     {
-        if (nomeDoLevelDeJogo == "Gameplay")
+        string nomeDoLevelDeJogo = SceneManager.GetActiveScene().name;
+        painelDerrota.SetActive(false);
+
+        if (nomeDoLevelDeJogo == "GameplayMultiplayer")
         {
-            painelDerrota.SetActive(false);
-            SceneManager.LoadScene("Gameplay");
-            Time.timeScale = 0;
-        }
-        else if (nomeDoLevelDeJogo == "GameplayDificil")
-        {
-            painelDerrota.SetActive(false);
-            SceneManager.LoadScene("GameplayDificil");
-            Time.timeScale = 0;
-        }
-        else if (nomeDoLevelDeJogo == "GameplayNormal")
-        {
-            painelDerrota.SetActive(false);
-            SceneManager.LoadScene("GameplayNormal");
-            Time.timeScale = 0;
-        }
-        else if (nomeDoLevelDeJogo == "GameplayExpert")
-        {
-            painelDerrota.SetActive(false);
-            SceneManager.LoadScene("GameplayExpert");
-            Time.timeScale = 0;
-        }
-        else if (nomeDoLevelDeJogo == "GameplayMultiplayer")
-        {
-            painelDerrota.SetActive(false);
             PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.LoadLevel("GameplayMultiplayer");
             Time.timeScale = 1;
         }
-
+        else
+        {
+            SceneManager.LoadScene(nomeDoLevelDeJogo);
+            Time.timeScale = 0;
+        }
 
     }
     public void PauseGame()
     {
-        if (nomeDoLevelDeJogo == "GameplayMultiplayer")
-        {
-            painelPauseMenu.SetActive(true);
-        }
-        else
+        painelPauseMenu.SetActive(true);
+
+        if (nomeDoLevelDeJogo != "GameplayMultiplayer")
         {
             Time.timeScale = 0;
-            painelPauseMenu.SetActive(true);
         }
     }
     public void Resume()
     {
-        if (nomeDoLevelDeJogo == "GameplayMultiplayer")
-        {
-            painelPauseMenu.SetActive(false);
-        }
-        else
+        painelPauseMenu.SetActive(false);
+
+        if (nomeDoLevelDeJogo != "GameplayMultiplayer")
         {
             Time.timeScale = 1;
-            painelPauseMenu.SetActive(false);
         }
     }
     public void Opcoes()

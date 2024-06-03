@@ -15,12 +15,26 @@ public class RoomItem : MonoBehaviour
 
     public void SetRoomName(string _roomName)
     {
-        roomName.text = _roomName;
+        if (roomName != null)
+        {
+            roomName.text = _roomName;
+        }
+        else
+        {
+            Debug.LogError("Cannot set room name: roomName is null.");
+        }
     }
 
     public void OnClickItem()
     {
-        manager.JoinRoom(roomName.text);
+        if (roomName != null)
+        {
+            manager.JoinRoom(roomName.text);
+        }
+        else
+        {
+            Debug.LogError("Cannot join room: roomName is null.");
+        }
     }
-    
+
 }

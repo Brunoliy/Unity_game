@@ -115,7 +115,7 @@ public class MultAtaqueJogador : MonoBehaviour
     public void Atacar()
     {
         // Verificar se este jogador é controlado pelo jogador local
-        if (!photonView.IsMine)
+        if (!photonView.IsMine || Jogador.Derrotado)
         {
             return;
         }

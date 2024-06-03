@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-public class MultiJogador : MonoBehaviour
+
+public class MultiJogador : MonoBehaviourPun
 {
     private FixedJoystick joystick;
     private float keyboardHorizontal;
@@ -14,33 +13,21 @@ public class MultiJogador : MonoBehaviour
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private float velocidadeMovimento;
     [SerializeField] private MultAtaqueJogador MultAtaqueJogador;
-    [SerializeField] AnimacaoJogador animacaoJogador;
+    [SerializeField] private AnimacaoJogador animacaoJogador;
     private MGameManagement gameManagement;
     [SerializeField] public int vidas;
 
-    // Start is called before the first frame update
     private void Start()
     {
-        if (!photonView.IsMine)
-        {
-            return;
-        }
-
         this.direcaoMovimento = DirecaoMovimento.Direita;
         _rigidbody = GetComponent<Rigidbody2D>();
 
-        // Encontre o GameManager na cena
-        gameManagement = FindObjectOfType<MGameManagement>();
+        gameManagement = MGameManagement.Instance;
         if (gameManagement == null)
         {
             Debug.LogWarning("GameManager não encontrado na cena!");
         }
-        else
-        {
-            gameManagement.AdicionarJogador(this);
-        }
 
-        // Encontre o joystick na cena
         joystick = FindObjectOfType<FixedJoystick>();
         if (joystick == null)
         {
@@ -50,70 +37,73 @@ public class MultiJogador : MonoBehaviour
 
     private void Update()
     {
-        if (!photonView.IsMine)
+        if (gameManagement != null)
         {
-            return;
+            this.vidas = gameManagement.vidas;
         }
-
-        // Atualizar logicamente as vidas se necessário
-        //this.vidas = this.vidas;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (!photonView.IsMine || Derrotado)
         {
             return;
         }
 
-        if (this.MultAtaqueJogador.Atacando)
+        if (MultAtaqueJogador != null && MultAtaqueJogador.Atacando)
         {
-            // Parar a movimentação
-            this._rigidbody.velocity = Vector2.zero;
+            _rigidbody.velocity = Vector2.zero;
             Debug.Log("Velocidade zerada");
         }
         else
         {
-            float horizontal = this.joystick.Horizontal;
-            float vertical = this.joystick.Vertical;
+            float horizontal = joystick != null ? joystick.Horizontal : 0f;
+            float vertical = joystick != null ? joystick.Vertical : 0f;
             keyboardHorizontal = Input.GetAxis("KeyboardHorizontal");
             keyboardVertical = Input.GetAxis("KeyboardVertical");
 
-
-            Vector2 direcao = new(horizontal + keyboardHorizontal, vertical + keyboardVertical);
-            direcao = direcao.normalized;
-            Debug.Log(direcao + " => " + direcao.magnitude);
+            Vector2 direcao = new Vector2(horizontal + keyboardHorizontal, vertical + keyboardVertical).normalized;
 
             if (direcao.x > 0)
             {
-                this.direcaoMovimento = DirecaoMovimento.Direita;
+                direcaoMovimento = DirecaoMovimento.Direita;
             }
             else if (direcao.x < 0)
             {
-                this.direcaoMovimento = DirecaoMovimento.Esquerda;
+                direcaoMovimento = DirecaoMovimento.Esquerda;
             }
 
-            this._rigidbody.velocity = direcao * this.velocidadeMovimento;
+            _rigidbody.velocity = direcao * velocidadeMovimento;
         }
     }
 
     public void ReceberDano()
     {
-        if (!photonView.IsMine)
-        {
-            return;
-        }
+        photonView.RPC("ReceberDanoRPC", RpcTarget.All);
+    }
 
+    [PunRPC]
+    public void ReceberDanoRPC()
+    {
         this.vidas--;
-        this.gameManagement.PerderVida(this);
-        if (this.vidas < 0)
+        Debug.Log($"Jogador {photonView.Owner.NickName} recebeu dano. Vidas restantes: {this.vidas}");
+
+        if (gameManagement != null)
         {
-            this.vidas = 0;
+            gameManagement.PerderVida();
         }
         else
         {
-            this.animacaoJogador.ReceberDano(Derrotado);
+            Debug.LogWarning("GameManagement não está atribuído no MultiJogador.");
+        }
+
+        if (this.vidas <= 0)
+        {
+            this.vidas = 0;
+        }
+        else if (animacaoJogador != null)
+        {
+            animacaoJogador.ReceberDano(Derrotado);
         }
     }
 

@@ -1,20 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class Vidas : MonoBehaviour
 {
+
 	private void OnTriggerEnter2D(Collider2D jogador)
 	{
-		if (jogador.gameObject.CompareTag("Player"))
+		string sceneName = SceneManager.GetActiveScene().name;
+		if (sceneName == "GameplayMultiplayer")
 		{
-			bool vidaRecuperada = MGameManagement.Instance.RecuperarVida(jogador.GetComponent<MultiJogador>());
-
-			if (vidaRecuperada)
+			if (jogador.gameObject.CompareTag("Player"))
 			{
-				Destroy(this.gameObject);
-			}
+				bool vidaRecuperada = MGameManagement.Instance.RecuperarVida();
 
+				if (vidaRecuperada)
+				{
+					Destroy(this.gameObject);
+				}
+
+			}
+		}
+		else
+		{
+			if (jogador.gameObject.CompareTag("Player"))
+			{
+				bool vidaRecuperada = GameManagement.Instance.RecuperarVida();
+
+				if (vidaRecuperada)
+				{
+					Destroy(this.gameObject);
+				}
+
+			}
 		}
 	}
 }

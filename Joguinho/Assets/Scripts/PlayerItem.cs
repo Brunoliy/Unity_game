@@ -19,7 +19,6 @@ public class PlayerItem : MonoBehaviourPunCallbacks
 
     Player player;
 
-
     public void Awake()
     {
         backgroundImage = GetComponent<Image>();
@@ -30,7 +29,6 @@ public class PlayerItem : MonoBehaviourPunCallbacks
         playerName.text = _player.NickName;
         player = _player;
         UpdatePlayerItem(player);
-
     }
 
     public void ApplyLocalChanges()
@@ -109,12 +107,12 @@ public class PlayerItem : MonoBehaviourPunCallbacks
             playerProperties["playerAvatar"] = 0;
         }
     }
+
     public override void OnJoinedRoom()
     {
-        // Verificar se o jogador local é o master client
-        if (PhotonNetwork.IsMasterClient && PhotonNetwork.LocalPlayer != null)
+        // Definir a propriedade "playerAvatar" para o jogador local
+        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("playerAvatar") == false)
         {
-            // Definir a propriedade "playerAvatar" para o jogador local
             int initialAvatarIndex = Random.Range(0, avatars.Length); // Índice do avatar inicial
             playerProperties["playerAvatar"] = initialAvatarIndex;
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperties);
