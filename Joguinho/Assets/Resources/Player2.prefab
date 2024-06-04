@@ -614,6 +614,7 @@ MonoBehaviour:
   _rigidbody2D: {fileID: 5450804569895120263}
   spriteRenderer: {fileID: -8345767354502046338}
   animator: {fileID: -7636159134355888396}
+  nomeDoLevelDeJogo: 
 --- !u!114 &3671403731967502534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -627,13 +628,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direcaoMovimento: 0
-  textoNome: {fileID: 0}
-  photonView: {fileID: -5469374073665429646}
   _rigidbody: {fileID: 5450804569895120263}
   velocidadeMovimento: 5
   MultAtaqueJogador: {fileID: -2812286329121298474}
   animacaoJogador: {fileID: -887963319001694759}
-  vidas: 6
+  vidas: 10
 --- !u!114 &-2812286329121298474
 MonoBehaviour:
   m_ObjectHideFlags: 0

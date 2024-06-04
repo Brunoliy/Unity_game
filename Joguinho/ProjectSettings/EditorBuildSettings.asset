@@ -15,14 +15,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Gameplay.unity
     guid: cce26576a737f9f42a9a8767a9e77175
   - enabled: 1
-    path: Assets/Scenes/GameplayMultiplayer.unity
-    guid: dc3d96f06abba084c8e210679f848d4b
-  - enabled: 1
     path: Assets/Scenes/GameplayNormal.unity
     guid: acabedf0d2868724d864c6f3ef5da78f
   - enabled: 1
     path: Assets/Scenes/GameplayDificil.unity
     guid: 45e1d598c493daa47be18c51e5378312
+  - enabled: 1
+    path: Assets/Scenes/GameplayMultiplayer.unity
+    guid: dc3d96f06abba084c8e210679f848d4b
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
       guid: 2812adb035b48724eaec96c2cb0a5195, type: 2}

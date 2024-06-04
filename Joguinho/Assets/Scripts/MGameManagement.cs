@@ -6,9 +6,12 @@ public class MGameManagement : MonoBehaviourPun
 {
 	public static MGameManagement Instance { get; private set; }
 	[SerializeField] private GameObject painelDerrota;
+	[SerializeField] private GameObject painelJogadorMorreu;
 	[SerializeField] private GameObject painelHUD;
 	public HUD hud;
 	public int vidas = 6;
+
+	private List<MultiJogador> jogadores = new List<MultiJogador>();
 
 	private void Awake()
 	{
@@ -52,57 +55,58 @@ public class MGameManagement : MonoBehaviourPun
 			}
 		}
 	}
-
-	public void PerderVida()
+	public void AdicionarJogador(MultiJogador jogador)
 	{
-		photonView.RPC("PerderVidaRPC", RpcTarget.All);
+		jogadores.Add(jogador);
 	}
 
-	[PunRPC]
-	public void PerderVidaRPC()
+	public void PerderVida(MultiJogador jogador)
 	{
 		vidas -= 1;
+		hud.DesativarVida(jogador.vidas);
 
-		if (hud != null)
+		if (jogador.vidas == 0)
 		{
-			hud.DesativarVida(vidas);
-		}
-		else
-		{
-			Debug.LogWarning("HUD não está atribuído no MGameManagement.");
-		}
-
-		if (vidas <= 0)
-		{
-			Time.timeScale = 0;
-			if (painelHUD != null)
-			{
-				painelHUD.SetActive(false);
-			}
-			if (painelDerrota != null)
-			{
-				painelDerrota.SetActive(true);
-			}
-			Debug.Log("Morreu");
+			ExibirDerrota();
 		}
 	}
 
 	public bool RecuperarVida()
 	{
-		if (vidas == 6)
+		if (vidas >= 10)
 		{
 			return false;
 		}
 
-		if (hud != null)
-		{
-			hud.AtivarVida(vidas);
-		}
-		else
-		{
-			Debug.LogWarning("HUD não está atribuído no MGameManagement.");
-		}
-		vidas += 1;
+		vidas++;
+		hud?.AtivarVida(vidas);
 		return true;
+	}
+
+
+
+	private bool TodosJogadoresDerrotados()
+	{
+
+		foreach (var jogador in jogadores)
+		{
+			if (!jogador.Derrotado)
+			{
+				return false;
+			}
+		}
+		return true;
+
+	}
+	private void ExibirDerrota()
+	{
+		if (painelHUD != null)
+		{
+			painelHUD.SetActive(false);
+		}
+		if (painelJogadorMorreu != null)
+		{
+			painelJogadorMorreu.SetActive(true);
+		}
 	}
 }

@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
-
-public class PauseManager : MonoBehaviour
+using Photon.Realtime;
+using Cinemachine;
+public class PauseManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private string nomeDoLevelDeJogo;
     [SerializeField] private GameObject painelPauseMenu;
@@ -11,8 +12,12 @@ public class PauseManager : MonoBehaviour
     [SerializeField] private GameObject painelObjetivo;
     [SerializeField] private GameObject painelHUD;
     [SerializeField] private GameObject painelDerrota;
+    [SerializeField] private GameObject painelJogadorMorreu;
     [SerializeField] private GameObject GameManager;
     [SerializeField] private GameObject botaoRecomecarJogo;
+    [SerializeField] private CinemachineTargetGroup targetGroup;
+    [SerializeField] private MultiJogador jogador;
+    public HUD hud;
 
     private void Start()
     {
@@ -33,6 +38,25 @@ public class PauseManager : MonoBehaviour
         GameManager.SetActive(true);
         painelObjetivo.SetActive(false);
         painelHUD.SetActive(true);
+    }
+
+    public void Renascer()
+    {
+        painelJogadorMorreu.SetActive(false);
+        painelHUD.SetActive(true);
+        hud.AtivarVida(jogador.vidas);
+
+        // Renasça o jogador local
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            MultiJogador jogador = player.GetComponent<MultiJogador>();
+            if (jogador.photonView.IsMine && jogador.Derrotado)
+            {
+                jogador.Reviver();
+                break;
+            }
+        }
     }
     public void RecomecarJogo()
     {
@@ -96,10 +120,15 @@ public class PauseManager : MonoBehaviour
     {
         if (nomeDoLevelDeJogo == "GameplayMultiplayer")
         {
-            Photon.Pun.PhotonNetwork.LeaveRoom();
-            Photon.Pun.PhotonNetwork.Disconnect();
+            PhotonNetwork.LeaveRoom();
+
         }
         SceneManager.LoadScene("Menu");
+    }
+
+    public override void OnLeftRoom()
+    {
+        PhotonNetwork.Disconnect();
     }
 
 

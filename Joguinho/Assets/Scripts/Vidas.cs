@@ -2,38 +2,64 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Vidas : MonoBehaviour
 {
 
-	private void OnTriggerEnter2D(Collider2D jogador)
+	[SerializeField] private string nomeDoLevelDeJogo;
+	public Button button; // Referência ao botão
+	public Text cooldownText; // Referência ao componente de texto para a contagem regressiva
+	private bool isCooldown = false;
+	private float cooldownTime = 5f;
+	[SerializeField] private MultiJogador jogador;
+
+	public void Recover()
 	{
-		string sceneName = SceneManager.GetActiveScene().name;
-		if (sceneName == "GameplayMultiplayer")
+		string nomeDoLevelDeJogo = SceneManager.GetActiveScene().name;
+
+		if (!isCooldown)
 		{
-			if (jogador.gameObject.CompareTag("Player"))
+			if (nomeDoLevelDeJogo == "GameplayMultiplayer")
 			{
-				bool vidaRecuperada = MGameManagement.Instance.RecuperarVida();
+				MGameManagement gameManagement = MGameManagement.Instance;
 
-				if (vidaRecuperada)
+				if (gameManagement != null)
 				{
-					Destroy(this.gameObject);
-				}
+					bool vidaRecuperada = gameManagement.RecuperarVida();
 
+					if (vidaRecuperada)
+					{
+						StartCoroutine(StartCooldown());
+					}
+				}
+				else
+				{
+					Debug.LogWarning("MGameManagement não encontrado.");
+				}
 			}
-		}
-		else
-		{
-			if (jogador.gameObject.CompareTag("Player"))
+			else
 			{
-				bool vidaRecuperada = GameManagement.Instance.RecuperarVida();
-
-				if (vidaRecuperada)
-				{
-					Destroy(this.gameObject);
-				}
-
+				GameManagement.Instance.RecuperarVida();
+				// Inicie o cooldown
+				StartCoroutine(StartCooldown());
 			}
+
 		}
 	}
+
+	private IEnumerator StartCooldown()
+	{
+		isCooldown = true;
+		float remainingTime = cooldownTime;
+		while (remainingTime > 0)
+		{
+			cooldownText.text = $"{Mathf.CeilToInt(remainingTime)} s";
+			yield return null;
+			remainingTime -= Time.deltaTime;
+		}
+		isCooldown = false;
+		cooldownText.text = "";
+	}
+
 }

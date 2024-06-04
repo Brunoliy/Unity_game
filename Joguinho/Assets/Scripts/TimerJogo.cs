@@ -6,7 +6,7 @@ using TMPro;
 
 public class TimerJogo : MonoBehaviour
 {
-    [SerializeField] GameObject Spawn;
+    [SerializeField] SpawnerInimigo spawn;
     [SerializeField] GameObject bossLixeiraPrefab;
     [SerializeField] GameObject bossBateriaPrefab;
     [SerializeField] GameObject bossToxicoPrefab;
@@ -103,7 +103,7 @@ public class TimerJogo : MonoBehaviour
             }
             if (minutos >= 1 && segundos >= 20)
             {
-                Spawn.SetActive(false);
+                spawn.enabled = false;
 
                 if (minutos >= 1 && segundos >= 30 && contadorBossToxico > 0)
                 {

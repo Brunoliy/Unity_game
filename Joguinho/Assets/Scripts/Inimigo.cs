@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Inimigo : MonoBehaviour
+public class Inimigo : MonoBehaviourPun
 {
     private Transform alvo;
 
@@ -100,24 +101,6 @@ public class Inimigo : MonoBehaviour
     public void AplicarDano()
     {
         string sceneName = SceneManager.GetActiveScene().name;
-        /*if (sceneName == "GameplayMultiplayer")
-        {
-            MultiJogador jogador = alvo.GetComponent<MultiJogador>();
-            if (jogador != null)
-            {
-                jogador.ReceberDano();
-                return;
-            }
-        }
-        else if (sceneName == "Gameplay" || sceneName == "GameplayNormal" || sceneName == "GameplayDificil")
-        {
-            Jogador jogador = alvo.GetComponent<Jogador>();
-            if (jogador != null)
-            {
-                jogador.ReceberDano();
-                return;
-            }
-        }*/
 
         //Obtém o componente de jogador associado ao alvo
         Jogador jogador = alvo.GetComponent<Jogador>();

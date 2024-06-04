@@ -1,5 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
+using System.Data.Common;
+using Unity.VisualScripting;
 
 public class MultiJogador : MonoBehaviourPun
 {
@@ -7,8 +9,6 @@ public class MultiJogador : MonoBehaviourPun
     private float keyboardHorizontal;
     private float keyboardVertical;
     public DirecaoMovimento direcaoMovimento;
-    public TextMesh textoNome;
-    public PhotonView photonView;
 
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private float velocidadeMovimento;
@@ -17,8 +17,15 @@ public class MultiJogador : MonoBehaviourPun
     private MGameManagement gameManagement;
     [SerializeField] public int vidas;
 
+    private bool derrotado;
+
     private void Start()
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+
         this.direcaoMovimento = DirecaoMovimento.Direita;
         _rigidbody = GetComponent<Rigidbody2D>();
 
@@ -26,6 +33,10 @@ public class MultiJogador : MonoBehaviourPun
         if (gameManagement == null)
         {
             Debug.LogWarning("GameManager não encontrado na cena!");
+        }
+        else
+        {
+            gameManagement.AdicionarJogador(this);
         }
 
         joystick = FindObjectOfType<FixedJoystick>();
@@ -37,9 +48,9 @@ public class MultiJogador : MonoBehaviourPun
 
     private void Update()
     {
-        if (gameManagement != null)
+        if (!photonView.IsMine)
         {
-            this.vidas = gameManagement.vidas;
+            return;
         }
     }
 
@@ -50,15 +61,15 @@ public class MultiJogador : MonoBehaviourPun
             return;
         }
 
-        if (MultAtaqueJogador != null && MultAtaqueJogador.Atacando)
+        if (this.MultAtaqueJogador.Atacando)
         {
-            _rigidbody.velocity = Vector2.zero;
+            this._rigidbody.velocity = Vector2.zero;
             Debug.Log("Velocidade zerada");
         }
         else
         {
-            float horizontal = joystick != null ? joystick.Horizontal : 0f;
-            float vertical = joystick != null ? joystick.Vertical : 0f;
+            float horizontal = this.joystick.Horizontal;
+            float vertical = this.joystick.Vertical;
             keyboardHorizontal = Input.GetAxis("KeyboardHorizontal");
             keyboardVertical = Input.GetAxis("KeyboardVertical");
 
@@ -66,52 +77,58 @@ public class MultiJogador : MonoBehaviourPun
 
             if (direcao.x > 0)
             {
-                direcaoMovimento = DirecaoMovimento.Direita;
+                this.direcaoMovimento = DirecaoMovimento.Direita;
             }
             else if (direcao.x < 0)
             {
-                direcaoMovimento = DirecaoMovimento.Esquerda;
+                this.direcaoMovimento = DirecaoMovimento.Esquerda;
             }
 
-            _rigidbody.velocity = direcao * velocidadeMovimento;
+            this._rigidbody.velocity = direcao * this.velocidadeMovimento;
         }
     }
 
     public void ReceberDano()
     {
-        photonView.RPC("ReceberDanoRPC", RpcTarget.All);
-    }
-
-    [PunRPC]
-    public void ReceberDanoRPC()
-    {
         this.vidas--;
         Debug.Log($"Jogador {photonView.Owner.NickName} recebeu dano. Vidas restantes: {this.vidas}");
-
-        if (gameManagement != null)
-        {
-            gameManagement.PerderVida();
-        }
-        else
-        {
-            Debug.LogWarning("GameManagement não está atribuído no MultiJogador.");
-        }
 
         if (this.vidas <= 0)
         {
             this.vidas = 0;
+            Derrotado = true;
         }
-        else if (animacaoJogador != null)
+        else
         {
-            animacaoJogador.ReceberDano(Derrotado);
+            this.animacaoJogador.ReceberDano(Derrotado);
         }
+
+        gameManagement.PerderVida(this);
     }
 
     public bool Derrotado
     {
         get
         {
-            return (this.vidas <= 0);
+            return derrotado;
         }
+        set
+        {
+            derrotado = value;
+        }
+    }
+
+    public void Reviver()
+    {
+        this.Derrotado = false;
+        this.vidas = 6;
+        this.photonView.RPC("RPCReviver", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RPCReviver()
+    {
+        Derrotado = false;
+        this.vidas = 6;
     }
 }

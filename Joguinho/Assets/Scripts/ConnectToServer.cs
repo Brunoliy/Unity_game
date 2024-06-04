@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;  // Add this directive
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,6 +8,14 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 {
     [SerializeField] public InputField usernameInput;
     [SerializeField] public Text buttonText;
+
+    private void Start()
+    {
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.Disconnect();
+        }
+    }
 
     public void OnClickConnect()
     {
@@ -24,7 +33,8 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         SceneManager.LoadScene("Lobby");
     }
 
-
-
-
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        Debug.Log("Desconectado do servidor Photon: " + cause);
+    }
 }

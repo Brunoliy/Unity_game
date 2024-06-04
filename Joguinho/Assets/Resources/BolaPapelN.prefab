@@ -626,7 +626,7 @@ MonoBehaviour:
   distanciaMinima: 2
   _rigidbody: {fileID: 5290816802194288448}
   spriteRenderer: {fileID: 5290816802194288455}
-  vidas: 3
+  vidas: 2
   animatorInimigo: {fileID: 3629739794112610143}
   barraVida: {fileID: 948937201156928944}
 --- !u!114 &-5890560029565767466
@@ -647,8 +647,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 0}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
